@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% block content %}
+    {% for food in food %}
+        <div class= 'container'>
+            <!--<img class= 'rounded-circle article-img' src="{{ url_for('static', filename = food.image_icon) }}" alt="">-->
+            <div>
+                <h3>{{ food.orderName }}</h3>
+                <p>{{ food.description }} </p>
+                <p> {{ food.price }} </p>
+            </div>
+            <div class= 'form-group'>
+               <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="save_order" value="{{  food.id  }}"><span class="glyphicon glyphicon-trash"></span> Add </button> </form>
+            </div>
+        </div>
+    {%  endfor %}
+{% endblock content %}

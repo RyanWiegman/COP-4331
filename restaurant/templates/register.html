@@ -1,0 +1,69 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class = 'content-section'>
+        <form method="Post" action="">
+            {{ resForm.hidden_tag() }}
+            <fieldset class='form-group'>
+                <legend class="border-bottom mb-4"> Sign up </legend>
+                <div class="form-group">
+                    {{ resForm.username.label(class="form-control-label") }}
+                    {% if resForm.username.errors %}
+                        {{ resForm.username(class= "form-control form-control-lg is-invalid") }}
+                        <div class= "invalid-feedback"> 
+                            {% for error in resForm.username.errors %}
+                                <span> {{ error }} </span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ resForm.username(class='form-control form-control-lg') }}
+                    {% endif %}
+                </div>
+
+                <div class='form-group'>
+                    {{ resForm.email.label(class='form-control-label') }}
+                    {% if resForm.email.errors %}
+                        {{ resForm.email(class= 'form-control form-control-lg is-invalid') }}
+                        <div class= 'invalid-feedback'> 
+                            {% for error in resForm.email.errors %}
+                                <span> {{ error }} </span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ resForm.email(class='form-control form-control-lg') }}
+                    {% endif %}
+                </div>
+
+                <div class='form-group'>
+                    {{ resForm.password.label(class='form-control-label') }}
+                    {% if resForm.password.errors %}
+                        {{ resForm.password(class= 'form-control form-control-lg is-invalid') }}
+                        <div class= 'invalid-feedback'> 
+                            {% for error in resForm.password.errors %}
+                                <span> {{ error }} </span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ resForm.password(class='form-control form-control-lg') }}
+                    {% endif %}
+                </div>
+
+                <div class='form-group'>
+                    {{ resForm.confirmPassword.label(class='form-control-label') }}
+                    {% if resForm.confirmPassword.errors %}
+                        {{ resForm.confirmPassword(class= 'form-control form-control-lg is-invalid') }}
+                        <div class= 'invalid-feedback'> 
+                            {% for error in resForm.confirmPassword.errors %}
+                                <span> {{ error }} </span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ resForm.confirmPassword(class='form-control form-control-lg') }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class='form-group'> 
+                {{ resForm.submitButton(class='btn btn-outline-info') }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

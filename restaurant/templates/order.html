@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <legend class="border-bottom mb-4"> My Order </legend>
+    {% for food in order %}
+        {% if food.userID == user %}
+            <div>
+                <h1>{{ food.orderName }}</h1>
+                <p>{{ food.description }}</p>
+                <p>{{ food.price }}</p>
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% if total_price != 0 %}
+        <div>
+            <h1>Total Amount: {{ total_price }}</h1>
+        </div>
+        <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="complete" value="{{ user }}"><span class="glyphicon glyphicon-trash"></span> Complete Order </button> </form>
+    {% endif %}
+{% endblock content %}
