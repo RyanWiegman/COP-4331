@@ -117,14 +117,27 @@ def adjust_menu() :
         return redirect(url_for('adjust_menu'))
     return render_template('adjust_menu.html', title = 'Adjust Menu', adjMenu = adjMenu)
 
-@app.route('/serve')
+@app.route('/serve', methods= ['GET', 'POST'])
 @login_required
 def serve() :
     temp_order = []
     order = Order.query.all()
+    name = User.query.all()
+    
     for items in order :
         if items.complete :
             temp_order.append(items)
 
-    name = User.query.all()
+    if request.method == 'POST':
+        temp_name = request.form.get('finish')
+
+        if temp_name is not None :
+            for items in order :
+                if temp_name == items.userID :
+                    db.session.delete(items)
+                    db.session.commit()
+            flash(f'Order ready for pickup!', 'success')
+            return redirect(url_for('serve'))
+
+    
     return render_template('serve.html', order = temp_order, name = name)
