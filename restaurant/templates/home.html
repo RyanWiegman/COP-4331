@@ -1,7 +1,18 @@
 {% extends 'layout.html' %}
 {% block content %}
     <div>
-        <img src= 'static/image/steak_cover.jpg' alt="" width= '1200' height= '620'>
+        <center style= font-size:50px> The Grille </center>
+        <img src= 'static/image/steak_cover.jpg' alt="" width= '1200' height= '725'>     
+    </div>
+    <div class= 'content-section'>
+        </br><img src= 'static/image/ribeye.jpg' alt="" width= '600' height= '400'>
+        <h1> Order now and try our new 8oz. Ribeye Steak </h1>
+        <p ><a class="ml-2" href="{{ url_for('menu') }}"> Start Order </a></p>
+    </div>
+    </div>
+    <div class= 'content-section'>
+        <h1> Register for an account now! </h1>
+        <p ><a class="ml-2" href="{{ url_for('register') }}"> Register </a></p>
     </div>
 {% endblock content %}
   
