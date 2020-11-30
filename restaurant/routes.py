@@ -4,7 +4,6 @@ from restaurant.userForms import registerForm, loginForm, AccountUpdateForm, adj
 from restaurant.databases import User, Order, Menu
 from flask_login import login_user, current_user, logout_user, login_required
 
-
 @app.route("/")
 @app.route("/home")
 def home() :
@@ -14,20 +13,6 @@ def home() :
 @app.route("/about")
 def about() :
     return render_template("about.html", title = "aboutpage")
-
-@app.route("/menu", methods= ['GET' , 'POST'])
-def menu() :
-    food = Menu.query.all()
-    if request.method == 'POST':
-        order_id = request.form.get('save_order')
-
-        if order_id is not None :
-            item = Order(orderName = Menu.query.get(order_id).orderName, description = Menu.query.get(order_id).description, price = Menu.query.get(order_id).price, userID = current_user.username)
-            db.session.add(item)
-            db.session.commit()
-            flash(f'Item added to order.', 'success')
-    
-    return render_template('menu.html', title = 'Menu', food = food)
 
 @app.route('/register', methods= ['GET', 'POST'])
 def register() :
@@ -80,6 +65,21 @@ def account() :
 
     image_icon = url_for('static', filename = 'image/' + current_user.image_icon)
     return render_template('account.html', title = 'Account', image_icon = image_icon, update = update)
+
+@app.route("/menu", methods= ['GET' , 'POST'])
+def menu() :
+    food = Menu.query.all()
+
+    if request.method == 'POST':
+        order_id = request.form.get('save_order')
+
+        if order_id is not None :
+            item = Order(orderName = Menu.query.get(order_id).orderName, description = Menu.query.get(order_id).description, price = Menu.query.get(order_id).price, userID = current_user.username)
+            db.session.add(item)
+            db.session.commit()
+            flash(f'Item added to order.', 'success')
+    
+    return render_template('menu.html', title = 'Menu', food = food)
 
 @app.route('/order', methods= ['GET', 'POST'])
 def order() :
