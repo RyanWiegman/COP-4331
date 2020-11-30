@@ -2,16 +2,16 @@
 {% block content %}
     <div class= 'content-section'>
         {% for temp in name %}
-        <legend> {{temp.username }} </legend>
+        <legend> {{ temp }} </legend>
         <div class= 'content-section'>
             {% for food in order %}
-                {% if temp.username == food.userID %}
+                {% if temp == food.userID %}
                     <p style= font-size:25px> {{ food.orderName }} </p>
                     <p>{{ food.description }} </p>
                     <p>{{ food.price }} </p>
                 {% endif %}
             {% endfor %}
-        <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="finish" value="{{  temp.username  }}"><span class="glyphicon glyphicon-trash"></span> Serve </button> </form>
+        <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="finish" value="{{  temp  }}"><span class="glyphicon glyphicon-trash"></span> Serve </button> </form>
         </div>
         {% endfor %}
     </div>

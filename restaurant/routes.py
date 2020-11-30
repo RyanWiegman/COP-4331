@@ -40,7 +40,7 @@ def register() :
         user = User(username = resForm.username.data, email = resForm.email.data, password = hashedPassword)
         db.session.add(user)
         db.session.commit()
-        flash(f'Account created, bitch!', 'success')
+        flash(f'Account created!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title = 'Register', resForm = resForm)
 
@@ -56,7 +56,7 @@ def login() :
             login_user(user)
             return redirect(url_for('home'))
         else :
-           flash('login in fucked', 'danger')
+           flash('Logged In', 'danger')
     return render_template('login.html', title = 'Login', login = login)
 
 @app.route('/logout')
@@ -122,11 +122,13 @@ def adjust_menu() :
 def serve() :
     temp_order = []
     order = Order.query.all()
-    name = User.query.all()
+    name = []
     
     for items in order :
         if items.complete :
             temp_order.append(items)
+            name.append(items.userID) 
+    name = list(dict.fromkeys(name))
 
     if request.method == 'POST':
         temp_name = request.form.get('finish')
