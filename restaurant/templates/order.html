@@ -13,6 +13,7 @@
     {% if total_price != 0 %}
         <div>
             <h1>Total Amount: {{ total_price }}</h1>
+            <p>Tax: 6.5%</p>
         </div>
         <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="complete" value="{{ user }}"><span class="glyphicon glyphicon-trash"></span> Complete Order </button> </form>
     {% endif %}

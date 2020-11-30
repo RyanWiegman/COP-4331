@@ -70,11 +70,20 @@ def account() :
 def menu() :
     food = Menu.query.all()
 
-    if request.method == 'POST':
+    if request.method == 'POST' and current_user.is_authenticated :
         order_id = request.form.get('save_order')
 
         if order_id is not None :
             item = Order(orderName = Menu.query.get(order_id).orderName, description = Menu.query.get(order_id).description, price = Menu.query.get(order_id).price, userID = current_user.username)
+            db.session.add(item)
+            db.session.commit()
+            flash(f'Item added to order.', 'success')
+
+    elif request.method == 'POST' and current_user.is_anonymous:
+        order_id = request.form.get('save_order')
+
+        if order_id is not None :
+            item = Order(orderName = Menu.query.get(order_id).orderName, description = Menu.query.get(order_id).description, price = Menu.query.get(order_id).price, userID = 'Guest')
             db.session.add(item)
             db.session.commit()
             flash(f'Item added to order.', 'success')
@@ -85,14 +94,29 @@ def menu() :
 def order() :
     total_price = 0.00
     order = Order.query.all()
-    user = current_user.username
+    
+    if current_user.is_anonymous :
+        user = 'Guest'
+    else :
+        user = current_user.username
 
     for items in order :
-        if items.userID == current_user.username :
+        if items.userID == user :
             total_price = total_price + float(items.price)
+    total_price = total_price + (total_price * .065)
     total_price = round(total_price, 2)
 
-    if request.method == 'POST':
+    if request.method == 'POST' and current_user.is_authenticated :
+        user_name = request.form.get('complete')
+
+        if user_name is not None :
+            for items in order :
+                if user_name == items.userID :
+                    items.complete = True
+                    db.session.commit()
+            flash(f'Order Complete.', 'success')
+
+    elif request.method == 'POST' and current_user.is_anonymous :
         user_name = request.form.get('complete')
 
         if user_name is not None :
