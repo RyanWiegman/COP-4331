@@ -7,6 +7,7 @@
                 <h1>{{ food.orderName }}</h1>
                 <p>{{ food.description }}</p>
                 <p>{{ food.price }}</p>
+                <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="delete" value="{{ food.id }}"><span class="glyphicon glyphicon-trash"></span> Delete Item </button> </form>
             </div>
         {% endif %}
     {% endfor %}

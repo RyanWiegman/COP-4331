@@ -70,6 +70,7 @@ def account() :
 def menu() :
     food = Menu.query.all()
 
+    #User
     if request.method == 'POST' and current_user.is_authenticated :
         order_id = request.form.get('save_order')
 
@@ -79,6 +80,7 @@ def menu() :
             db.session.commit()
             flash(f'Item added to order.', 'success')
 
+    #Guest User
     elif request.method == 'POST' and current_user.is_anonymous:
         order_id = request.form.get('save_order')
 
@@ -106,8 +108,17 @@ def order() :
     total_price = total_price + (total_price * .065)
     total_price = round(total_price, 2)
 
+    #User
     if request.method == 'POST' and current_user.is_authenticated :
         user_name = request.form.get('complete')
+        delete = request.form.get('delete')
+
+        if delete is not None :
+            delete_item = Order.query.get(delete)
+            db.session.delete(delete_item)
+            db.session.commit()
+            flash(f'Item deleted.', 'success')
+            return redirect(url_for('order'))
 
         if user_name is not None :
             for items in order :
@@ -115,9 +126,18 @@ def order() :
                     items.complete = True
                     db.session.commit()
             flash(f'Order Complete.', 'success')
-
+   
+    #Guest user
     elif request.method == 'POST' and current_user.is_anonymous :
         user_name = request.form.get('complete')
+        delete = request.form.get('delete')
+
+        if delete is not None :
+            delete_item = Order.query.get(delete)
+            db.session.delete(delete_item)
+            db.session.commit()
+            flash(f'Item deleted.', 'success')
+            return redirect(url_for('order'))
 
         if user_name is not None :
             for items in order :
