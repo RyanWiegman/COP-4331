@@ -41,7 +41,7 @@ def login() :
             login_user(user)
             return redirect(url_for('home'))
         else :
-           flash('Logged In', 'danger')
+           flash('Incorrect information add', 'danger')
     return render_template('login.html', title = 'Login', login = login)
 
 @app.route('/logout')
