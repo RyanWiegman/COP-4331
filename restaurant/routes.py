@@ -52,6 +52,7 @@ def logout() :
 @app.route('/account', methods= ['GET', 'POST'])
 @login_required
 def account() :
+    points = current_user.points
     update = AccountUpdateForm()
     if update.validate_on_submit() :
         current_user.username = update.username.data
@@ -64,7 +65,7 @@ def account() :
         update.email.data = current_user.email
 
     image_icon = url_for('static', filename = 'image/' + current_user.image_icon)
-    return render_template('account.html', title = 'Account', image_icon = image_icon, update = update)
+    return render_template('account.html', title = 'Account', image_icon = image_icon, update = update, points = points)
 
 @app.route("/menu", methods= ['GET' , 'POST'])
 def menu() :
@@ -99,11 +100,13 @@ def order() :
     
     if current_user.is_anonymous :
         user = 'Guest'
+        points = 0
     else :
         user = current_user.username
+        points = current_user.points
 
     for items in order :
-        if items.userID == user :
+        if items.userID == user and items.complete == False :
             total_price = total_price + float(items.price)
     total_price = total_price + (total_price * .065)
     total_price = round(total_price, 2)
@@ -112,7 +115,29 @@ def order() :
     if request.method == 'POST' and current_user.is_authenticated :
         user_name = request.form.get('complete')
         delete = request.form.get('delete')
+        off_25 = request.form.get('25_off')
+        half_off = request.form.get('half_off')
+        off_75 = request.form.get('75_off')
+        
+        if off_25 :
+            total_price = total_price - (total_price * .25)
+            total_price = round(total_price, 2)
+            current_user.points = current_user.points - 50
+            db.session.commit()
 
+        if half_off :
+            total_price = total_price - (total_price * .5)
+            total_price = round(total_price, 2)
+            current_user.points = current_user.points - 100
+            db.session.commit()
+
+        if off_75 :
+            total_price = total_price - (total_price * .75)
+            total_price = round(total_price, 2)
+            current_user.points = current_user.points - 250
+            db.session.commit()
+        
+        #delete button
         if delete is not None :
             delete_item = Order.query.get(delete)
             db.session.delete(delete_item)
@@ -120,12 +145,15 @@ def order() :
             flash(f'Item deleted.', 'success')
             return redirect(url_for('order'))
 
+        #complete button
         if user_name is not None :
+            point_calculator(total_price)
             for items in order :
                 if user_name == items.userID :
                     items.complete = True
                     db.session.commit()
             flash(f'Order Complete.', 'success')
+            return redirect(url_for('order'))
    
     #Guest user
     elif request.method == 'POST' and current_user.is_anonymous :
@@ -146,8 +174,13 @@ def order() :
                     db.session.commit()
             flash(f'Order Complete.', 'success')
         
-    return render_template('order.html', order = order, total_price = total_price, user = user)
- 
+    return render_template('order.html', order = order, total_price = total_price, user = user, points = points)
+
+@login_required
+def point_calculator(price) :
+    points_to_add = price * .5
+    current_user.points = int(points_to_add) + current_user.points
+
 ##admin only
 @app.route('/adjustMenu', methods= ['GET', 'POST'])
 @login_required
