@@ -41,7 +41,7 @@ def login() :
             login_user(user)
             return redirect(url_for('home'))
         else :
-           flash('Incorrect information add', 'danger')
+           flash('Incorrect login information', 'danger')
     return render_template('login.html', title = 'Login', login = login)
 
 @app.route('/logout')
@@ -97,7 +97,7 @@ def menu() :
 def order() :
     total_price = 0.00
     order = Order.query.all()
-    
+
     if current_user.is_anonymous :
         user = 'Guest'
         points = 0
@@ -110,7 +110,7 @@ def order() :
             total_price = total_price + float(items.price)
     total_price = total_price + (total_price * .065)
     total_price = round(total_price, 2)
-
+    
     #User
     if request.method == 'POST' and current_user.is_authenticated :
         user_name = request.form.get('complete')
@@ -118,7 +118,7 @@ def order() :
         off_25 = request.form.get('25_off')
         half_off = request.form.get('half_off')
         off_75 = request.form.get('75_off')
-        
+
         if off_25 :
             total_price = total_price - (total_price * .25)
             total_price = round(total_price, 2)
@@ -153,7 +153,7 @@ def order() :
                     items.complete = True
                     db.session.commit()
             flash(f'Order Complete.', 'success')
-            return redirect(url_for('order'))
+            return redirect(url_for('complete', total_price = total_price))
    
     #Guest user
     elif request.method == 'POST' and current_user.is_anonymous :
@@ -173,8 +173,23 @@ def order() :
                     items.complete = True
                     db.session.commit()
             flash(f'Order Complete.', 'success')
-        
+            return redirect(url_for('complete', total_price = total_price))
     return render_template('order.html', order = order, total_price = total_price, user = user, points = points)
+
+@app.route('/complete')
+def complete() :
+    order = Order.query.all()
+    price = request.args.get('total_price')
+
+    for food in order :
+        counter =+ 1
+
+    if current_user.is_anonymous :
+        user = 'Guest'
+    else :
+        user = current_user.username
+
+    return render_template('complete.html', order = order, user = user, price = price, counter = counter)
 
 @login_required
 def point_calculator(price) :
@@ -187,7 +202,7 @@ def point_calculator(price) :
 def adjust_menu() :
     adjMenu = adjustMenu()
     if adjMenu.validate_on_submit() :
-        item = Menu(orderName = adjMenu.Name.data, description = adjMenu.description.data, price = adjMenu.price.data)
+        item = Menu(orderName = adjMenu.Name.data, description = adjMenu.description.data, price = adjMenu.price.data, section = adjMenu.item_section.data)
         db.session.add(item)
         db.session.commit()
         flash('Item created', 'success')
@@ -215,7 +230,7 @@ def serve() :
                 if temp_name == items.userID :
                     db.session.delete(items)
                     db.session.commit()
-            flash(f'Order ready for pickup!', 'success')
+            flash(f'Order has been picked up!', 'success')
             return redirect(url_for('serve'))
 
     

@@ -33,6 +33,7 @@ class Menu(db.Model) :
     orderName = db.Column(db.String(50), nullable = False)
     description = db.Column(db.Text, nullable = False)
     price = db.Column(db.String(50), nullable = False)
+    section = db.Column(db.Integer, nullable = False)
 
     def __repr__(self) :
         return f"Order('{self.orderName}')"

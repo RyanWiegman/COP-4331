@@ -51,7 +51,5 @@ class adjustMenu(FlaskForm) :
     Name = StringField('Name', validators= [DataRequired()])
     description = TextAreaField('description', validators= [DataRequired()])
     price = StringField('Price', validators= [DataRequired()])
+    item_section = StringField('Section', validators= [DataRequired()])
     submit = SubmitField('Add')
-
-class saveOrder(FlaskForm) :
-    submit = SubmitField('add')

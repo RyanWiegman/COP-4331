@@ -1,16 +1,94 @@
 {% extends 'layout.html' %}
 {% block content %}
+    <div>
+        <legend class="border-bottom mb-4">
+            <ul>
+                <li><a class="nav-item nav-link" href="#steaks"> Steaks </a></li>
+                <li><a class="nav-item nav-link" href="#fish"> Fish </a></li>
+                <li><a class="nav-item nav-link" href="#chicken"> Chicken </a></li>
+                <li><a class="nav-item nav-link" href="#burgurs"> Burgurs </a></li>
+                <li><a class="nav-item nav-link" href="#drinks"> Drinks </a></li>
+            </ul>
+        </legend>
+    </div>
+    
+    <h1 class= "border-bottom mb-4" id= 'steaks'> Steaks </h1>
     {% for food in food %}
-        <div class= 'container'>
-            <!--<img class= 'rounded-circle article-img' src="{{ url_for('static', filename = food.image_icon) }}" alt="">-->
-            <div>
-                <h3>{{ food.orderName }}</h3>
-                <p>{{ food.description }} </p>
-                <p> {{ food.price }} </p>
+        {% if food.section == 1 %}
+            <div class= 'container'>
+                <div>
+                    <h3>{{ food.orderName }}</h3>
+                    <p>{{ food.description }} </p>
+                    <p> {{ food.price }} </p>
+                </div>
+                <div class= 'form-group'>
+                <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="save_order" value="{{  food.id  }}"><span class="glyphicon glyphicon-trash"></span> Add </button> </form>
+                </div>
             </div>
-            <div class= 'form-group'>
-               <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="save_order" value="{{  food.id  }}"><span class="glyphicon glyphicon-trash"></span> Add </button> </form>
+        {% endif %}
+    {%  endfor %}
+
+    <br><h1 class= "border-bottom mb-4" id= 'fish'> Fish </h1>
+    {% for food in food %}
+        {% if food.section == 2 %}
+            <div class= 'container'>
+                <div>
+                    <h3>{{ food.orderName }}</h3>
+                    <p>{{ food.description }} </p>
+                    <p> {{ food.price }} </p>
+                </div>
+                <div class= 'form-group'>
+                <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="save_order" value="{{  food.id  }}"><span class="glyphicon glyphicon-trash"></span> Add </button> </form>
+                </div>
             </div>
-        </div>
+        {% endif %}
+    {%  endfor %}
+
+    <br><h1 class= "border-bottom mb-4" id= 'chicken'> Chicken </h1>
+    {% for food in food %}
+        {% if food.section == 3 %}
+            <div class= 'container'>
+                <div>
+                    <h3>{{ food.orderName }}</h3>
+                    <p>{{ food.description }} </p>
+                    <p> {{ food.price }} </p>
+                </div>
+                <div class= 'form-group'>
+                <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="save_order" value="{{  food.id  }}"><span class="glyphicon glyphicon-trash"></span> Add </button> </form>
+                </div>
+            </div>
+        {% endif %}
+    {%  endfor %}
+
+    <br><h1 class= "border-bottom mb-4" id= 'burgurs'> Burgurs </h1>
+    {% for food in food %}
+        {% if food.section == 4 %}
+            <div class= 'container'>
+                <div>
+                    <h3>{{ food.orderName }}</h3>
+                    <p>{{ food.description }} </p>
+                    <p> {{ food.price }} </p>
+                </div>
+                <div class= 'form-group'>
+                <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="save_order" value="{{  food.id  }}"><span class="glyphicon glyphicon-trash"></span> Add </button> </form>
+                </div>
+            </div>
+        {% endif %}
+    {%  endfor %}
+
+    <br><h1 class= "border-bottom mb-4" id= 'drinks'> Drinks </h1>
+    {% for food in food %}
+        {% if food.section == 5 %}
+            <div class= 'container'>
+                <div>
+                    <h3>{{ food.orderName }}</h3>
+                    <p>{{ food.description }} </p>
+                    <p> {{ food.price }} </p>
+                </div>
+                <div class= 'form-group'>
+                <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="save_order" value="{{  food.id  }}"><span class="glyphicon glyphicon-trash"></span> Add </button> </form>
+                </div>
+            </div>
+        {% endif %}
     {%  endfor %}
 {% endblock content %}

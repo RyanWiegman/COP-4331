@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
     <div class= 'content-section'>
-        <legend class="border-bottom mb-4"> My Order </legend>
+        <legend class= "border-bottom mb-4"> My Order </legend>
         {% for food in order %}
             {% if food.userID == user and food.complete == False%}
                 <div>
@@ -21,19 +21,19 @@
         {% endif %}
     </div>
     <div class= 'content-section'>
-            <legend class="border-bottom mb-4"> Add Deal </legend>
-            <p>My Points: {{ points }}</p>
-            {% if points >= 50 %}
-                <p>30% Off:</p>
-                <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="25_off" value="{{ True }}"><span class="glyphicon glyphicon-trash"></span> Select </button> </form>
-            {% endif %}
-            {% if points >= 100 %}
-                <p>Half Off:</p>
-                <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="half_off" value="{{ user }}"><span class="glyphicon glyphicon-trash"></span> Select </button> </form>
-            {% endif %}
-            {% if points >= 300 %}
-                <p>75% Off:</p>
-                <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="75_off" value="{{ user }}"><span class="glyphicon glyphicon-trash"></span> Select </button> </form>
-             {% endif %}      
+        <legend class="border-bottom mb-4"> Add Deal </legend>
+        <p>My Points: {{ points }}</p>
+        {% if points >= 50 %}
+            <p>30% Off:</p>
+            <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="25_off" value="{{ True }}"><span class="glyphicon glyphicon-trash"></span> Select </button> </form>
+        {% endif %}
+        {% if points >= 100 %}
+            <p>Half Off:</p>
+            <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="half_off" value="{{ user }}"><span class="glyphicon glyphicon-trash"></span> Select </button> </form>
+        {% endif %}
+        {% if points >= 300 %}
+            <p>75% Off:</p>
+            <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="75_off" value="{{ user }}"><span class="glyphicon glyphicon-trash"></span> Select </button> </form>
+        {% endif %}      
     </div>
 {% endblock content %}

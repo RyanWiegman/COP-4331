@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <legend class= 'border-bottom mb-4'> Your Order has been completed! </legend>
+    <h1> {{ user }} </h1>
+    <div class= 'content-section'>
+        <p class= 'border-bottom mb-4'>My Order</p>    
+        {% for food in order %}
+            {% if food.userID == user and food.complete == True%}
+                <div>
+                    <h1>{{ food.orderName }}</h1>
+                    <p>{{ food.description }}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class= 'content-section'>
+        {% if counter < 10 %}
+            <h1>order will be ready in 15 minutes</h1>
+        {% elif counter > 10 and counter < 20 %}
+            <h1>order will be ready in 20-25 minutes</h1>
+        {% elif counter > 20 and counter < 30%}
+            <h1>order will be ready in 30-35 minutes</h1>
+        {% else %}
+            <h1>order will be ready in 45 minutes</h1>
+        {% endif %}
+    </div>
+{% endblock content %}
